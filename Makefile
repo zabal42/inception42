@@ -1,6 +1,6 @@
 COMPOSE   := docker compose -f srcs/docker-compose.yml
 ENV_FILE  := srcs/.env
-ENV_KEYS  := LOGIN DOMAIN_NAME
+ENV_KEYS  := LOGIN DOMAIN_NAME MYSQL_DATABASE MYSQL_USER
 SECRETS   := secrets/db_root_password.txt secrets/db_password.txt secrets/credentials.txt
 
 LOGIN     := $(shell grep -E '^LOGIN=' $(ENV_FILE) 2>/dev/null | tail -n 1 | cut -d= -f2-)
@@ -39,12 +39,9 @@ status:
 	$(COMPOSE) ps
 
 clean: down
-	$(COMPOSE) down --rmi all
 
-fclean: check
-	@test -n "$(LOGIN)" || { echo "Error: LOGIN is empty."; exit 1; }
-	$(COMPOSE) down --rmi all --volumes
-	rm -rf $(DATA_DIR)
+fclean: clean
+	$(COMPOSE) down --rmi all
 
 re: fclean all
 
