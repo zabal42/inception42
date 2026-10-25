@@ -1,0 +1,6 @@
+# Local configuration (never committed)
+srcs/.env
+secrets/
+
+# Local reference copy of the subject
+docs/inception.pdf
