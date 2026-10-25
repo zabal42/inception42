@@ -1,6 +1,7 @@
 COMPOSE   := docker compose -f srcs/docker-compose.yml
 ENV_FILE  := srcs/.env
-ENV_KEYS  := LOGIN DOMAIN_NAME MYSQL_DATABASE MYSQL_USER
+ENV_KEYS  := LOGIN DOMAIN_NAME MYSQL_DATABASE MYSQL_USER \
+             WP_TITLE WP_ADMIN_USER WP_ADMIN_EMAIL WP_USER WP_USER_EMAIL
 SECRETS   := secrets/db_root_password.txt secrets/db_password.txt secrets/credentials.txt
 
 LOGIN     := $(shell grep -E '^LOGIN=' $(ENV_FILE) 2>/dev/null | tail -n 1 | cut -d= -f2-)

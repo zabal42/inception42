@@ -13,6 +13,12 @@ services:
       - mariadb:/var/lib/mysql
     networks:
       - inception
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "--silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     restart: unless-stopped
 
   wordpress:
@@ -25,10 +31,13 @@ services:
       - credentials
     volumes:
       - wordpress:/var/www/html
+    tmpfs:
+      - /run/wp
     networks:
       - inception
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     restart: unless-stopped
 
   nginx:
